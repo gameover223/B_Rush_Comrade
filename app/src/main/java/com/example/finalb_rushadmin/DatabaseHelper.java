@@ -94,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_BUS_STOP = "CREATE TABLE "+TABLE_BUS_STOP+"("+COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
             +COLUMN_DESTINATION+"TEXT)";
     public static final String CREATE_TABLE_GCASH = "CREATE TABLE "+TABLE_GCASH+" ("+COLUMN_ID+"	INTEGER PRIMARY KEY AUTOINCREMENT,"
-            +COLUMN_PHONE_NUMBER+ "INTEGER,"+COLUMN_REFERENCE_NUMBER+"INTEGER)";
+            +COLUMN_PHONE_NUMBER+ "INTEGER,"+COLUMN_REFERENCE_NUMBER+"INTEGER, "+COLUMN_PASSWORD+" INTEGER)";
     public static final String CREATE_TABLE_PAYMENT ="CREATE TABLE "+TABLE_PAYMENT+" ("+COLUMN_ID+"	INTEGER PRIMARY KEY AUTOINCREMENT,"+COLUMN_AMOUNT+"	INTEGER)";
     public static final String CREATE_TABLE_TICKET = "CREATE TABLE "+TABLE_TICKET+" ("+COLUMN_ID+"	INTEGER PRIMARY KEY AUTOINCREMENT,"+COLUMN_FK_USER+" INTEGER,"
             +COLUMN_FK_PAYMENT+" INTEGER,"+COLUMN_FK_SEAT+"	INTEGER,"+COLUMN_SEAT_NUMBER+"INTEGER,"+COLUMN_STATUS+"	TEXT,"+COLUMN_ISCANCELLED+"	Boolean," +
@@ -239,6 +239,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_GCASH,null);
         if(res!= null){res.moveToFirst();}
         return res;
+    }
+    public boolean insertGcashRef(String Ref) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_REFERENCE_NUMBER, Ref);
+        long result = db.insert(TABLE_GCASH,null ,contentValues);
+        if(result == -1)
+            return false;
+        else
+            return true;
     }
    /* public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
